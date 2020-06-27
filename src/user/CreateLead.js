@@ -121,10 +121,10 @@ function CreateLead() {
     };
     return (
         <Base>
-            <h3 className="border-bottom text-center">Create New Lead</h3>
+            <h1 className="border-bottom text-center">Create New Lead</h1>
             {successMessage()}
             {errorMessage()}
-            <form style={{ width: "100%" }} className="card mb-5">
+            <form style={{ width: "100%" }} className="card mb-5 shadow-sm">
                 <div className="row p-3">
                     <div className="col-lg-6">
                             <div className="form-group">

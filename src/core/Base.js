@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { signout } from '../auth/helper';
+import { signout, isAuthenticated } from '../auth/helper';
 import Logo from '../images/mainlogosolo.png';
 
 function Base({children}) {
@@ -8,6 +8,18 @@ function Base({children}) {
     const logout = () => {
         signout();
         history.push("/signin");
+    }
+
+    const currentTab = (history, path) => {
+        if (history.location.pathname === path) {
+            return {
+                color: "blue"
+            };
+        } else {
+            return {
+                color: "black"
+            };
+        }
     }
 
     return (
@@ -25,40 +37,46 @@ function Base({children}) {
                         <div className="sidebar-sticky pt-3">
                             <ul className="nav flex-column">
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/">
+                                    <Link className="nav-link" style={currentTab(history, "/")} to="/">
                                     <span data-feather="home"></span>
                                     Dashboard <span className="sr-only">(current)</span>
                                     </Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/allleads">
+                                    <Link className="nav-link" style={currentTab(history, "/allleads")}  to="/allleads">
                                     <span data-feather="home"></span>
                                     All Lead <span className="sr-only">(current)</span>
                                     </Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/createlead">
+                                    <Link className="nav-link" style={currentTab(history, "/createlead")}  to="/createlead">
                                     <span data-feather="file"></span>
                                     Create Lead
                                     </Link>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link" href="/updatelead">
+                                    <Link className="nav-link" style={currentTab(history, "/updatelead")}  href="/updatelead">
                                     <span data-feather="shopping-cart"></span>
                                     Update Lead
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link" href="/movelead">
+                                    <Link className="nav-link" style={currentTab(history, "/movelead")}  href="/movelead">
                                     <span data-feather="users"></span>
                                     Move Lead to Funnel
-                                    </a>
+                                    </Link>
                                 </li>
-                                <li className="nav-item border-bottom">
-                                    <a className="nav-link" href="/sharelead">
+                                <li className="nav-item border-bottom" style={currentTab(history, "/sharelead")} >
+                                    <Link className="nav-link" href="/sharelead">
                                     <span data-feather="bar-chart-2"></span>
                                     Share Lead
-                                    </a>
+                                    </Link>
+                                </li>
+                                <li className="nav-item border-bottom">
+                                    <p className="text-success pt-3 pl-3">
+                                    <span data-feather="bar-chart-2"></span>
+                                        Welcome {isAuthenticated().user.name}
+                                    </p>
                                 </li>
                                 <li className="nav-item mt-2">
                                     <button className="btn btn-dark" onClick={logout} style={{ marginLeft: "4%"}}>

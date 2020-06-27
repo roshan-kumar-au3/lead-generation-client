@@ -4,7 +4,7 @@ import Base from '../core/Base';
 function AllLead() {
     return (
         <Base>
-            <h3 className="border-bottom text-center">All Leads</h3>
+            <h1 className="border-bottom text-center">All Leads</h1>
         </Base>
     );
 }
