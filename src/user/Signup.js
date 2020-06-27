@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-// import { signup } from '../auth/helper';
+import { signup } from '../auth/helper';
 import { Link } from 'react-router-dom';
 import './Signin.css';
-import Logo from '../images/logo.jpeg'
+import Logo from '../images/mainlogosolo.png';
 
 const Signup = () => {
 
@@ -22,48 +22,56 @@ const Signup = () => {
 
     const onSubmit = event => {
         event.preventDefault();
-        setValues({...values, error: false})
-        // signup({name, email, password})
-        // .then(data => {
-        //     if (data.error) {
-        //         setValues({ ...values, error: data.error, success: false })
-        //     } else {
-        //         setValues({
-        //             ...values,
-        //             name: "",
-        //             email: "",
-        //             password: "",
-        //             error: "",
-        //             success: true
-        //         })
-        //     }
-        // })
-        // .catch(err => console.log(err));
+        if(!name || !email || !password) {
+            setValues({
+                ...values,
+                error: "All fields are mandatory"
+            })
+        } else {
+            setValues({...values, error: false})
+            signup({name, email, password})
+            .then(response => {
+                if (response.data.error) {
+                    setValues({ ...values, error: response.data.error, success: false })
+                } else {
+                    setValues({
+                        ...values,
+                        name: "",
+                        email: "",
+                        password: "",
+                        error: "",
+                        success: true
+                    })
+                }
+            })
+            .catch(err => console.log(err));
+        }
     }
 
     const signUpForm = () => {
         return (
             <div className="form-body">
-                <form class="form-signin">
-                    <div class="text-center mb-4">
-                        <img class="mb-4" src={Logo} alt="" width="72" height="72" />
+                <form className="form-signin">
+                    <div className="text-center">
+                        <img className="img-fluid" src={Logo} alt="" width="150" />
                     </div>
-                    <div class="form-label-group">
-                        <input type="text" id="inputEmail" class="form-control" placeholder="Enter Name" required autofocus />
-                        <label for="inputEmail">Name</label>
+                    <h4 className="text-center display-3"><strong>Welcome!</strong></h4>
+                    <div className="form-label-group">
+                        <input type="text" onChange={handleChange("name")} className="form-control" placeholder="Enter Name" required autoFocus />
+                        <label>Name</label>
+                    </div>
+                    <div className="form-label-group">
+                        <input type="email" onChange={handleChange("email")} className="form-control" placeholder="Email address" required autoFocus />
+                        <label>Email address</label>
                     </div>
 
-                    <div class="form-label-group">
-                        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus />
-                        <label for="inputEmail">Email address</label>
+                    <div className="form-label-group">
+                        <input type="password" id="inputPassword" onChange={handleChange("password")} className="form-control" placeholder="Password" required />
+                        <label>Password</label>
                     </div>
-
-                    <div class="form-label-group">
-                        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required />
-                        <label for="inputPassword">Password</label>
-                    </div>
-                    <button class="btn btn-lg btn-primary btn-block" type="button" onClick={onSubmit} >Submit</button>
-                    <p class="mt-5 mb-3 text-muted text-center">&copy;2020</p>
+                    <p>Already have an account! <Link to="/signin">Login Here</Link></p>
+                    <button className="btn btn-lg btn-dark btn-block" type="button" onClick={onSubmit} >Submit</button>
+                    <p className="mt-3 text-muted text-center">&copy;2020 - Solo-SOS</p>
                 </form>
             </div>
         )
@@ -72,7 +80,7 @@ const Signup = () => {
     const successMessage = () => {
         return(
             <div className="row">
-                <div className="col-md-6 offset-sm-3 text-left">
+                <div className="col-md-6 offset-sm-3 text-left mt-3">
                     <div className="alert alert-success"
                         style={{ display: success ? "" : "none" }}>
                         New Account was created successfully. Please <Link to="/signin">Login Here</Link>
@@ -85,7 +93,7 @@ const Signup = () => {
     const errorMessage = () => {
         return(
             <div className="row">
-                <div className="col-md-6 offset-sm-3 text-left">
+                <div className="col-md-6 offset-sm-3 text-left mt-1">
                     <div className="alert alert-danger"
                         style={{ display: error ? "" : "none" }}>
                         {error}
@@ -96,10 +104,12 @@ const Signup = () => {
     };
 
     return (
-        <div>
-            {successMessage()}
-            {errorMessage()}
-            {signUpForm()}
+        <div className="Signin">
+            <div className="container-fluid">
+                {successMessage()}
+                {errorMessage()}
+                {signUpForm()}
+            </div>
         </div>
     )
 }
