@@ -9,7 +9,7 @@ import leadReducer from "./reducers/leadReducer";
 let reducer = combineReducers({
     auth: authReducer,
     user: userReducer,
-    hackathons: leadReducer
+    leads: leadReducer
 });
 
 let store = createStore(

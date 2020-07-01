@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Base from '../core/Base';
 import { createLead } from './helper/leadapicall';
 import { isAuthenticated } from '../auth/helper';
+import Header from '../components/Header/Header';
 
 function CreateLead() {
 
@@ -121,7 +122,7 @@ function CreateLead() {
     };
     return (
         <Base>
-            <h1 className="border-bottom text-center">Create New Lead</h1>
+            <Header title="Create Lead" />
             {successMessage()}
             {errorMessage()}
             <form style={{ width: "100%" }} className="card mb-5 shadow-sm">

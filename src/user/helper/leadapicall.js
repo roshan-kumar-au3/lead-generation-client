@@ -24,3 +24,25 @@ export const getAllLeads = () => {
         })
         .catch((err) => console.log(err));
 };
+
+//get lead details
+export const getLeadDetails = (leadId, userId) => {
+    return axios
+        .get(`${API}/lead/${leadId}/${userId}`)
+        .then((response) => {
+            console.log(response);
+            return response;
+        })
+        .catch((err) => console.log(err));
+};
+
+//update lead
+export const updateLead = (leadId, userId, lead) => {
+    return axios
+        .put(`${API}/lead/${leadId}/${userId}`, lead)
+        .then((response) => {
+            console.log(response);
+            return response;
+        })
+        .catch((err) => console.log(err));
+};

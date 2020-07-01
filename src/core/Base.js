@@ -54,32 +54,32 @@ function Base({children}) {
                                     Create Lead
                                     </Link>
                                 </li>
-                                <li className="nav-item">
-                                    <Link className="nav-link" style={currentTab(history, "/updatelead")}  href="/updatelead">
+                                {/* <li className="nav-item">
+                                    <Link className="nav-link" style={currentTab(history, "/updatelead")}  to="/updatelead">
                                     <span data-feather="shopping-cart"></span>
                                     Update Lead
                                     </Link>
-                                </li>
+                                </li> */}
                                 <li className="nav-item">
-                                    <Link className="nav-link" style={currentTab(history, "/movelead")}  href="/movelead">
+                                    <Link className="nav-link" style={currentTab(history, "/funnel")}  to="/funnel">
                                     <span data-feather="users"></span>
-                                    Move Lead to Funnel
+                                    Funnel
                                     </Link>
                                 </li>
-                                <li className="nav-item border-bottom" style={currentTab(history, "/sharelead")} >
-                                    <Link className="nav-link" href="/sharelead">
+                                <li className="nav-item border-bottom" style={currentTab(history, "/sharelead")}>
+                                    <Link className="nav-link" to="/sharelead">
                                     <span data-feather="bar-chart-2"></span>
-                                    Share Lead
+                                    Lead shared
                                     </Link>
                                 </li>
                                 <li className="nav-item border-bottom">
-                                    <p className="text-success pt-3 pl-3">
+                                    <p className="text-warning pt-3 pl-3">
                                     <span data-feather="bar-chart-2"></span>
-                                        Welcome {isAuthenticated().user.name}
+                                        Welcome! {isAuthenticated().user.name} 🥳
                                     </p>
                                 </li>
                                 <li className="nav-item mt-2">
-                                    <button className="btn btn-dark" onClick={logout} style={{ marginLeft: "4%"}}>
+                                    <button className="btn btn-outline-danger" onClick={logout} style={{ marginLeft: "4%"}}>
                                     <span data-feather="layers"></span>
                                     Logout
                                     </button>
