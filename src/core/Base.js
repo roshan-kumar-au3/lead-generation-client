@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { signout, isAuthenticated } from '../auth/helper';
-import Logo from '../images/mainlogosolo.png';
-
+// import Logo from '../images/mainlogosolo.png';
+import { Container, Row,} from 'react-bootstrap';
+import './Base.css';
 function Base({children}) {
     const history = useHistory();
     const logout = () => {
@@ -13,7 +14,8 @@ function Base({children}) {
     const currentTab = (history, path) => {
         if (history.location.pathname === path) {
             return {
-                color: "blue"
+                color: "white",
+                backgroundColor: "rgba(0, 0, 0, 0.671)"
             };
         } else {
             return {
@@ -31,8 +33,8 @@ function Base({children}) {
                 </button>
             </nav>
 
-            <div className="container-fluid">
-                <div className="row">
+            <Container fluid>
+                <Row>
                     <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
                         <div className="sidebar-sticky pt-3">
                             <ul className="nav flex-column">
@@ -44,7 +46,7 @@ function Base({children}) {
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" style={currentTab(history, "/allleads")}  to="/allleads">
-                                    <span data-feather="home"></span>
+                                    {/* <span data-feather="home"></span> */}
                                     All Lead <span className="sr-only">(current)</span>
                                     </Link>
                                 </li>
@@ -54,26 +56,20 @@ function Base({children}) {
                                     Create Lead
                                     </Link>
                                 </li>
-                                {/* <li className="nav-item">
-                                    <Link className="nav-link" style={currentTab(history, "/updatelead")}  to="/updatelead">
-                                    <span data-feather="shopping-cart"></span>
-                                    Update Lead
-                                    </Link>
-                                </li> */}
-                                <li className="nav-item">
+                                <li className="nav-item border-bottom">
                                     <Link className="nav-link" style={currentTab(history, "/funnel")}  to="/funnel">
                                     <span data-feather="users"></span>
                                     Funnel
                                     </Link>
                                 </li>
-                                <li className="nav-item border-bottom" style={currentTab(history, "/sharelead")}>
+                                {/* <li className="nav-item border-bottom" style={currentTab(history, "/sharelead")}>
                                     <Link className="nav-link" to="/sharelead">
                                     <span data-feather="bar-chart-2"></span>
                                     Lead shared
                                     </Link>
-                                </li>
+                                </li> */}
                                 <li className="nav-item border-bottom">
-                                    <p className="text-warning pt-3 pl-3">
+                                    <p className="text-success pt-3 pl-3">
                                     <span data-feather="bar-chart-2"></span>
                                         Welcome! {isAuthenticated().user.name} 🥳
                                     </p>
@@ -85,17 +81,17 @@ function Base({children}) {
                                     </button>
                                 </li>
                             </ul>
-                            <div className="text-center mt-5">
+                            {/* <div className="text-center mt-5">
                                 <img className="mt-3" src={Logo} alt="" width="150" />
-                            </div>
+                            </div> */}
                         </div>
                     </nav>
 
-                <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+                <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-md-4 mb-4">
                     {children}
                 </main>
-            </div>
-        </div>
+            </Row>
+        </Container>
     </div>
     )
 }

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import DateTimePicker from 'react-datetime-picker';
 import { isAuthenticated } from '../auth/helper';
-import { createLead, getLeadDetails } from './helper/leadapicall';
+import { getLeadDetails, updateLead } from './helper/leadapicall';
 import Header from '../components/Header/Header';
 import Base from '../core/Base';
+import { useHistory } from 'react-router-dom';
 
 function UpdateLead(props) {
     const [values, setValues] = useState({
@@ -11,14 +13,21 @@ function UpdateLead(props) {
         company: "",
         roleInOrganisation: "",
         description: "",
+        phone: "",
         country: "",
         businessDev: "",
         contacted: "",
+        followups: "",
+        followupTime: "",
+        remarks: "",
         city: "",
         error: "",
         success: false
     });
 
+    // const [startDate, setStartDate] = useState(new Date());
+    const [nextFollowupTime, setNextFollowupTime] = useState();
+    const history = useHistory();
     const { user } = isAuthenticated();
     const leadId = props.match.params.leadId;
     const userId = isAuthenticated().user._id;
@@ -29,10 +38,13 @@ function UpdateLead(props) {
         company,
         roleInOrganisation,
         description,
+        phone,
         country,
+        followups,
         businessDev,
         contacted,
         city,
+        remarks,
         error,
         success
     } = values;
@@ -65,29 +77,31 @@ function UpdateLead(props) {
     const onSubmit = event => {
         event.preventDefault();
         console.log(values);
+        console.log("time", nextFollowupTime);
         let userId = user._id;
         if (!name || !email || !country || !company 
             || !description || !city || !roleInOrganisation
-            || !businessDev) {
+            || !businessDev || !phone) {
             setValues({
                 ...values,
                 error: "All fields are mandatory"
             })
         } else {
-            setValues({
-                ...values,
-                error: false
-            })
-            createLead({
+            updateLead({
                     name,
                     email,
                     company,
                     roleInOrganisation,
                     description,
+                    phone,
                     country,
                     businessDev,
-                    city
-                }, userId)
+                    contacted,
+                    city,
+                    followups,
+                    remarks,
+                    followupTime: nextFollowupTime
+                },leadId, userId)
                 .then(response => {
                     console.log(response);
                     if (response.data.error) {
@@ -99,15 +113,6 @@ function UpdateLead(props) {
                     } else {
                         setValues({
                             ...values,
-                            name: "",
-                            email: "",
-                            company: "",
-                            roleInOrganisation: "",
-                            description: "",
-                            country: "",
-                            businessDev: "",
-                            city: "",
-                            error: "",
                             success: true
                         });
                     }
@@ -121,7 +126,7 @@ function UpdateLead(props) {
                 <div className="col-md-6 offset-sm-3 text-left mt-3">
                     <div className="alert alert-success"
                         style={{ display: success ? "" : "none" }}>
-                        New Lead was created successfully.
+                        Lead was updated successfully.
                     </div>
                 </div>
             </div>    
@@ -162,19 +167,28 @@ function UpdateLead(props) {
                             <label htmlFor="company">Company</label>
                             <input type="text" className="form-control" id="company" aria-describedby="company" placeholder="Enter company name" onChange={handleChange("company")} value={company} />
                         </div>
-                        
                         <div className="form-group">
-                            <label htmlFor="description">Project Description</label>
-                            <textarea type="text" rows="4" className="form-control" id="description"
-                            onChange={handleChange("description")} aria-describedby="roleInCompany" placeholder="Enter project description ..." value={description} />
+                                <label htmlFor="phone">Phone</label>
+                                <input type="text" className="form-control" value={phone}
+                                aria-describedby="phone" placeholder="Enter number" onChange={handleChange("phone")}/>
                         </div>
-                </div>
-                <div className="col-lg-6">
                         <div className="form-group">
                             <label htmlFor="role">Role</label>
                             <input type="text" className="form-control" value={roleInOrganisation}
                             aria-describedby="role" placeholder="Enter role" onChange={handleChange("roleInOrganisation")}/>
                         </div>
+                        <div className="form-group">
+                            <label htmlFor="description">Project Description</label>
+                            <textarea type="text" rows="4" className="form-control" id="description"
+                            onChange={handleChange("description")} aria-describedby="roleInCompany" placeholder="Enter project description ..." value={description} />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="remarks">Call Remarks</label>
+                            <textarea type="text" rows="4" className="form-control" id="remarks"
+                            onChange={handleChange("remarks")} aria-describedby="roleInCompany" placeholder="Enter remarks ..." value={remarks} />
+                        </div>
+                </div>
+                <div className="col-lg-6">
                         <div className="form-group">
                             <label htmlFor="country">Country</label>
                             <input type="text" className="form-control" id="country" aria-describedby="country" placeholder="Country" onChange={handleChange("country")} value={country} />
@@ -185,9 +199,43 @@ function UpdateLead(props) {
                         </div>
                         <div className="form-group">
                             <label htmlFor="contacted">Contacted</label>
-                            <input type="text" className="form-control" id="business" aria-describedby="state" placeholder="Enter your name" onChange={handleChange("contacted")} value={contacted ? "yes" : "no"} />
+                            <select type="text" className="form-control" id="contacted" onChange={handleChange("contacted")}>
+                                <option>Select Contacted</option>
+                                <option>yes</option>
+                                <option>no</option>
+                            </select>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="followups">Followups</label>
+                            <select type="text" className="form-control" id="followups" onChange={handleChange("followups")}>
+                                <option>Select followups required today</option>
+                                <option>yes</option>
+                                <option>no</option>
+                            </select>
+                        </div>
+                        <div className="form-group">
+                        <label htmlFor="followup Date">Next Followup Date</label>
+                        <div className="d-block">
+                            <DateTimePicker
+                                amPmAriaLabel="Select AM/PM"
+                                calendarAriaLabel="Toggle calendar"
+                                clearAriaLabel="Clear value"
+                                dayAriaLabel="Day"
+                                hourAriaLabel="Hour"
+                                maxDetail="second"
+                                minuteAriaLabel="Minute"
+                                monthAriaLabel="Month"
+                                nativeInputAriaLabel="Date and time"
+                                onChange={date => setNextFollowupTime(date)}
+                                secondAriaLabel="Second"
+                                value={nextFollowupTime}
+                                yearAriaLabel="Year"
+                                />
+                        </div>
                         </div>
                         <button type="button" onClick={onSubmit} className="btn btn-outline-success float-right">Submit</button>
+                        <button type="button" onClick={() => history.goBack()} className="btn btn-outline-danger float-right mr-3">Cancel</button>
+                        <button type="button" onClick={() => history.goBack()} className="btn btn-outline-dark float-right mr-3">Go back</button>
                 </div>
             </div>
         </form>

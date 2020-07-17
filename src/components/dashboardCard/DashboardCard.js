@@ -2,12 +2,12 @@ import React from 'react'
 
 function DashboardCard({ title, data, icon, color}) {
     return (
-            <div className="card mb-4 shadow-sm">
+            <div className="card mb-4 shadow-sm" >
                 <div className="card-header">
-                    <h3 className="my-0 font-weight-normal">{title}</h3>
+                    <h3 style={{ fontSize: "27px"}}>{title}</h3>
                 </div>
                 <div className="card-body">
-                    <h1 className="card-title pricing-card-title">{data}</h1>
+                    <span className="card-title mr-3" style={{ fontSize: "32px"}}>{data}</span>
                     <span style={{ fontSize: "32px", color: {color} }}>
                         <i className={icon} aria-hidden="true"></i>
                     </span>

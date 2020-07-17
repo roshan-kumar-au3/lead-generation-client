@@ -12,6 +12,10 @@ import { useDispatch } from 'react-redux';
 import { isAuthenticated } from './auth/helper';
 import Funnel from './user/Funnel';
 import UpdateLead from './user/UpdateLead';
+import FollowupLead from './user/FollowupLead';
+import ContactedLead from './user/ContactedLead';
+import FunnelDetails from './user/FunnelDetails';
+import UpdateFunnel from './user/UpdateFunnel';
 
 const Routes = () => {
     const dispatch = useDispatch();
@@ -45,6 +49,10 @@ const Routes = () => {
                     <PrivateRoute path="/lead/:leadId" exact component={LeadDetails} />
                     <PrivateRoute path="/update/lead/:leadId" exact component={UpdateLead} />
                     <PrivateRoute path="/funnel" exact component={Funnel} />
+                    <PrivateRoute path="/funnel/:funnelId" exact component={FunnelDetails} />
+                    <PrivateRoute path="/update/funnel/:funnelId" exact component={UpdateFunnel} />
+                    <PrivateRoute path="/followups" exact component={FollowupLead} />
+                    <PrivateRoute path="/contacted" exact component={ContactedLead} />
                 </Switch>
             </BrowserRouter>
         </div>

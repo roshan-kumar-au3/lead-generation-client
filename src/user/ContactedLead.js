@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react'
+import { getAllLeads } from './helper/leadapicall';
 import Base from '../core/Base';
-import Logo from '../images/undraw_hey_email_liaa.svg';
-import { getAllLeadsInFunnel } from './helper/leadapicall';
 import Header from '../components/Header/Header';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 
-function Funnel() {
-    const [funnels, setFunnels] = useState([]);
+function ContactedLead() {
+    const [leads, setLeads] = useState([]);
     const allLeads = () => {
-        getAllLeadsInFunnel()
+        getAllLeads()
             .then(response => {
                 console.log(response);
-                setFunnels(response.data.reverse());
+                setLeads(response.data.reverse());
             })
             .catch(err => {
                 console.log(err)
@@ -21,22 +20,17 @@ function Funnel() {
     useEffect(() => {
         allLeads();
     }, [])
+
+    const leadsToBeContacted = leads.filter(lead => lead.contacted === false);
     return (
         <Base>
-            {/* <div className="d-flex align-items-center p-3 my-3 text-dark-50 bg-light rounded shadow-sm">
-                <img className="mr-3" src={Logo} alt="" width="48" />
-                <div className="lh-100">
-                <h5 className="mb-0 text-dark lh-100">Leads in Funnel</h5>
-                <small>Since 2020</small>
-                </div>
-            </div> */}
-             <Header title="All Leads" />
+            <Header title="Leads need to be contacted" />
             <div className="my-3 p-3 bg-white rounded shadow-sm">
                 <h6 className="border-bottom border-gray pb-2 mb-3">Recent updates</h6>
-                {
-                    funnels.map((lead, index) => {
+                {  leadsToBeContacted.length > 0 ? (
+                    leadsToBeContacted.map((lead, index) => {
                         return (
-                            <Link to={`funnel/${lead._id}`} key={lead._id} style={{ textDecoration: "none", marginTop: "6px", marginBottom: "15px" }}>
+                            <Link to={`lead/${lead._id}`} key={lead._id} style={{ textDecoration: "none", marginTop: "6px", marginBottom: "15px" }}>
                                 <div className={`media p-3 rounded mb-1 text-muted bg-light my-3`} id="Lead-List-Item">
                                 <svg className="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32" fill={index % 2 ? "#6f42c1" : "#e83e8c"}><title>Placeholder</title><rect width="100%" height="100%"/></svg>
                                 <p className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
@@ -60,11 +54,11 @@ function Funnel() {
                                 </div>
                             </Link>
                         );
-                    })
+                    }) ) : "No leads to be contacted"
                 }
             </div>
         </Base>
-    )
+    );
 }
 
-export default Funnel;
+export default ContactedLead

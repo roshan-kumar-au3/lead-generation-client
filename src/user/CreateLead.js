@@ -3,6 +3,7 @@ import Base from '../core/Base';
 import { createLead } from './helper/leadapicall';
 import { isAuthenticated } from '../auth/helper';
 import Header from '../components/Header/Header';
+import './CreateLead.css';
 
 function CreateLead() {
 
@@ -10,6 +11,7 @@ function CreateLead() {
         name: "",
         email: "",
         company: "",
+        phone: "",
         roleInOrganisation: "",
         description: "",
         country: "",
@@ -25,6 +27,7 @@ function CreateLead() {
         name,
         email,
         company,
+        phone,
         roleInOrganisation,
         description,
         country,
@@ -48,7 +51,7 @@ function CreateLead() {
         let userId = user._id;
         if (!name || !email || !country || !company 
             || !description || !city || !roleInOrganisation
-            || !businessDev) {
+            || !businessDev || !phone) {
             setValues({
                 ...values,
                 error: "All fields are mandatory"
@@ -62,6 +65,7 @@ function CreateLead() {
                     name,
                     email,
                     company,
+                    phone,
                     roleInOrganisation,
                     description,
                     country,
@@ -88,6 +92,7 @@ function CreateLead() {
                             businessDev: "",
                             city: "",
                             error: "",
+                            phone: "",
                             success: true
                         });
                     }
@@ -125,7 +130,7 @@ function CreateLead() {
             <Header title="Create Lead" />
             {successMessage()}
             {errorMessage()}
-            <form style={{ width: "100%" }} className="card mb-5 shadow-sm">
+            <form style={{ width: "100%" }} className="card mb-5" id="Create-Lead-Form">
                 <div className="row p-3">
                     <div className="col-lg-6">
                             <div className="form-group">
@@ -142,7 +147,11 @@ function CreateLead() {
                                 <label htmlFor="company">Company</label>
                                 <input type="text" className="form-control" id="company" aria-describedby="company" placeholder="Enter company name" onChange={handleChange("company")} value={company} />
                             </div>
-                            
+                            <div className="form-group">
+                                <label htmlFor="phone">Phone</label>
+                                <input type="text" className="form-control" value={phone}
+                                aria-describedby="phone" placeholder="Enter number" onChange={handleChange("phone")}/>
+                            </div>
                             <div className="form-group">
                                 <label htmlFor="description">Project Description</label>
                                 <textarea type="text" rows="4" className="form-control" id="description"

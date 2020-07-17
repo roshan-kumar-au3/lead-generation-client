@@ -25,6 +25,18 @@ export const getAllLeads = () => {
         .catch((err) => console.log(err));
 };
 
+
+//getAllleadsinfunnel
+export const getAllLeadsInFunnel = () => {
+    return axios
+        .get(`${API}/funnels`)
+        .then((response) => {
+            console.log(response);
+            return response;
+        })
+        .catch((err) => console.log(err));
+};
+
 //get lead details
 export const getLeadDetails = (leadId, userId) => {
     return axios
@@ -37,9 +49,30 @@ export const getLeadDetails = (leadId, userId) => {
 };
 
 //update lead
-export const updateLead = (leadId, userId, lead) => {
+export const updateLead = (lead, leadId, userId) => {
     return axios
         .put(`${API}/lead/${leadId}/${userId}`, lead)
+        .then((response) => {
+            console.log(response);
+            return response;
+        })
+        .catch((err) => console.log(err));
+};
+
+//archive lead
+export const archiveLead = (lead,leadId, userId) => {
+    return axios
+        .post(`${API}/create/archive/${leadId}/${userId}`, lead)
+        .then((response) => {
+            console.log(response);
+            return response;
+        })
+        .catch((err) => console.log(err));
+};
+
+export const moveLead = (lead, leadId, userId) => {
+    return axios
+        .post(`${API}/create/funnel/${leadId}/${userId}`, lead)
         .then((response) => {
             console.log(response);
             return response;
