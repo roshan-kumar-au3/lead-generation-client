@@ -87,12 +87,12 @@ function FunnelDetails(props) {
                 </div>
                                 {successMessage()}
                                 {errorMessage()}
-                                <p className="media-body pb-3 mb-3 small lh-125 border-bottom border-gray">
                                     <h5>
                                         <strong className="text-dark mb-2">@{funnelDetails.name}</strong>
                                         <span className="text-info mb-2 ml-1"> - {funnelDetails.roleInOrganisation}
                                         </span>
                                     </h5>
+                                <p className="media-body pb-3 mb-3 small lh-125 border-bottom border-gray">
                                     <strong className="d-block text-muted mb-2">Project Description : </strong>
                                     <textarea className="d-block text-muted mb-2 form-control" value={funnelDetails.description} readOnly></textarea>
                                     {
