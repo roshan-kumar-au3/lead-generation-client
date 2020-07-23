@@ -62,6 +62,12 @@ function Base({children}) {
                                     Funnel
                                     </Link>
                                 </li>
+                                <li className="nav-item border-bottom">
+                                    <Link className="nav-link" style={currentTab(history, "/allbd")}  to="/allbd">
+                                    <span data-feather="users"></span>
+                                    Call Team
+                                    </Link>
+                                </li>
                                 {/* <li className="nav-item border-bottom" style={currentTab(history, "/sharelead")}>
                                     <Link className="nav-link" to="/sharelead">
                                     <span data-feather="bar-chart-2"></span>

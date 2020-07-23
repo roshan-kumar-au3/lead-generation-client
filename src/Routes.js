@@ -16,6 +16,9 @@ import FollowupLead from './user/FollowupLead';
 import ContactedLead from './user/ContactedLead';
 import FunnelDetails from './user/FunnelDetails';
 import UpdateFunnel from './user/UpdateFunnel';
+import VideoCallCompo from './components/VideoCall/VideoCallCompo';
+import AllBusinessDev from './user/AllBusinessDev';
+import Room from './user/Room';
 
 const Routes = () => {
     const dispatch = useDispatch();
@@ -44,6 +47,8 @@ const Routes = () => {
                     <PrivateRoute path="/" exact component={App} />
                     <Route path="/signup" exact component={Signup} />
                     <Route path="/signin" exact component={Signin} />
+                    {/* <Route path="/video/:userId" exact component={VideoCallCompo} /> */}
+                    <Route path="/room/:roomID" exact component={Room} />
                     <PrivateRoute path="/createlead" exact component={CreateLead} />
                     <PrivateRoute path="/allleads" exact component={AllLead} />
                     <PrivateRoute path="/lead/:leadId" exact component={LeadDetails} />
@@ -53,6 +58,7 @@ const Routes = () => {
                     <PrivateRoute path="/update/funnel/:funnelId" exact component={UpdateFunnel} />
                     <PrivateRoute path="/followups" exact component={FollowupLead} />
                     <PrivateRoute path="/contacted" exact component={ContactedLead} />
+                    <PrivateRoute path="/allbd" exact component={AllBusinessDev} />
                 </Switch>
             </BrowserRouter>
         </div>
